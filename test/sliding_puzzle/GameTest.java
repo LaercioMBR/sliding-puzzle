@@ -34,4 +34,11 @@ public class GameTest {
 		assertArrayEquals(test_game,game.getGameMatrix());
 	}
 	
+	@Test
+	public void gameChecksIfSolved() {
+		
+		game.isGameSolved();
+		assertTrue(game.isGameSolved());
+	}
+	
 }

@@ -45,11 +45,11 @@ public class Game {
 		
 		this.charactersPerCell = numberDigits.intValue() + 2;
 		this.printRowSize = charactersPerCell.intValue() * numberColumns.intValue() + ( 1 * numberColumns.intValue() ) - 1  ;
-		this.solved = false;
 		this.quitGame = false;
 		this.gameStarted = false;
 		
 		populateGameBoard(this.numberRows,this.numberColumns);
+		this.solved = true;
 		definePossibleMoves();
 	}
 
@@ -71,27 +71,36 @@ public class Game {
 		
 		Boolean quitGame = askWantQuitGame();
 
+		Boolean quitGameConfirm = false;
+
 		if(quitGame) {
-			wantQuitGameConfirm();
-		} else {
+			quitGameConfirm = wantQuitGameConfirm();
+		} 
+
+		if(!quitGameConfirm) {
 			this.run();
 		}
 		
 	}
 
 	private void loopGameStart() {
-			
-		while(!this.getSolved().booleanValue() && getGameStarted()) {
+		
+		if(this.getSolved().booleanValue()) {
 			printGameBoard();
-			askPlayerMovementChoice();
-			if( isGameSolved().booleanValue()) {
-				congratulatePlayer();				
-				break;
-			}
+			String message = informPlayer("You started an already solved game");
+		} else {
+			while(!this.getSolved().booleanValue() && getGameStarted()) {
+				printGameBoard();
+				askPlayerMovementChoice();
+				if( isGameSolved().booleanValue()) {
+					congratulatePlayer();				
+					printGameBoard();
+					break;
+				}
+			}			
 		}
+			
 
-		printGameBoard();
-				
 	}
 	
 	
@@ -161,18 +170,20 @@ public class Game {
 		return scrambleStart;
 	}
 
-	private void wantQuitGameConfirm() {
+	private Boolean wantQuitGameConfirm() {
 		
-		Boolean quitGame = false;
+		Boolean quitGameConfirm = false;
 		
 		informPlayer("Are you SURE you want to quit and close this game instance? Type > YES < or > yes < to confirm, anything else will cancel this operation");
 			
 		String confirm = userInput();
-		if(confirm.toLowerCase().strip().equals("yes")) {
-			quitGame = true;					
+		confirm = confirm.toLowerCase().strip();
+		if(confirm.equals("yes")) {
+			System.out.println();
+			quitGameConfirm = true;					
 		}
 		
-		setQuitGame(quitGame);
+		return quitGameConfirm;
 	}
 
 	private String informPlayer(String message) {
@@ -288,24 +299,40 @@ public class Game {
 		int[][] gameMatrix = this.getGameMatrix();
 		int rows = gameMatrix.length ;
 		int columns = gameMatrix[0].length ;
-		
+		int lastRow = rows - 1;
+		int lastColumn = columns - 1;
 
 		Boolean solved = null;
-		for(int i = 0; i < rows ; i++) {
-			for(int j = 0 ; j < columns ; j++) {
+		int i;
+		int j;
+		for( i = 0; i < rows ; i++) {
+			for(j = 0 ; j < columns ; j++) {
 				int cell = gameMatrix[i][j];
 				
+				if(i == lastRow) {
+					if(j == lastColumn) {
+						counter = 0;
+					}
+				}
+				
 				//If there's 0 anywhere but the last cell, then false
-				if(cell == 0 && !(i == (rows - 1)) && !(j == (columns - 1) ) ){
-					solved = false;
-				}
-				
-				//If any cell doesn't contain the expected value
-				if( cell != counter && !(i == (rows - 1)) && !(j == (columns - 1) )) {
-					solved = false;
-				}
-				
+				if(cell == 0) {
+					if (i == lastRow) {
+						if(j == lastColumn){
+							solved = true;
+						}
+					}
 
+					if(solved == null) {
+						solved = false;
+					}
+					//If any cell doesn't contain the expected value
+				}else if( cell != counter ) {
+					solved = false;
+				}
+			
+				
+				
 									
 				counter++;
 					

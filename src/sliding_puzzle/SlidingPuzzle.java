@@ -22,11 +22,15 @@ public class SlidingPuzzle {
 						
 			Boolean playAgain = loopPlayAgain();
 
-			if(playAgain.booleanValue())
+			if(playAgain.booleanValue()) {
+				informPlayer(playAgainMessage(true));
 				continue;
-			else
+			}	else {
+				
+				informPlayer(playAgainMessage(false) );
 				informPlayer(sayGoodBye());
 				break;
+			}
 		}
 	}
 	
@@ -35,35 +39,30 @@ public class SlidingPuzzle {
 		
 		informPlayer(askPlayerPlayAgainMessage());		
 		
-		String answer = userInput();
 		Boolean playAgain = null;
 		
-		String error_message = "Invalid input, please input either > 1 <  or > 0 <"; 
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Invalid input\n");
+		sb.append("Please input > 1 < to create another game or > 0 < to close this program\n");
+		String error_message = sb.toString();
 
 		while(playAgain == null){
-				
-			try {
-				switch(Integer.parseInt(answer) ){
-					case 1:
-						playAgain = true;						
-						break;
-					case 0:
-						playAgain = false;
-						break;
-					default:
-						informPlayer(error_message);
-				}
-						
-			} catch (NumberFormatException e) {
+			
+			String answer = userInput();
+			answer = answer.strip();
+			
+			if(answer.equals("1"))
+				playAgain = true;
+			if(answer.equals("0"))
+				playAgain = false;
+			else {
 				informPlayer(error_message);
 				answer = userInput();
 			}
 
 		}
-		
-		
-		String message = playAgainMessage(playAgain);
-		System.out.println(message);
 		
 		return playAgain ;
 	}
@@ -158,9 +157,13 @@ public class SlidingPuzzle {
 
 	public static String askPlayerPlayAgainMessage() {
 		
-		String askPlayAgain = "Do you want to create another game? Type > 1 < for Yes or > 0 < for No";
+		StringBuilder sb = new StringBuilder();
 		
-		return askPlayAgain;
+		sb.append("Do you want to create another game?\n");
+		sb.append("Type > 1 < for Yes or > 0 < for No\n");
+		String askPlayAgainMessage = sb.toString(); 
+		
+		return askPlayAgainMessage;
 	}
 	
 	public static String userInput() {

@@ -2,7 +2,7 @@ package sliding_puzzle;
 
 public class Move {
 	private String moveName;
-	private Boolean isPossible;
+	private Boolean isPossible; // TODO REFACTOR - IT'S NOT USED
 	private Integer swapDirection;
 	private Integer relativeSwapPositionRow;
 	private Integer relativeSwapPositionColumn;
