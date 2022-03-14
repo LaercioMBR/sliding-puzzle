@@ -81,7 +81,7 @@ public class SlidingPuzzleTest {
 	
 	@Test
 	public void SlidingPuzzleAskPlayerToPlayAgain() {
-		assertEquals(game.askPlayerPlayAgainMessage(),"Do you want to play another game? Type > 1 < for Yes or > 0 < for No");
+		assertEquals(game.askPlayerPlayAgainMessage(),"Do you want to create another game? Type > 1 < for Yes or > 0 < for No");
 	}
 	
 	@Test

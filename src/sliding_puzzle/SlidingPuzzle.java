@@ -158,7 +158,7 @@ public class SlidingPuzzle {
 
 	public static String askPlayerPlayAgainMessage() {
 		
-		String askPlayAgain = "Do you want to play another game? Type > 1 < for Yes or > 0 < for No";
+		String askPlayAgain = "Do you want to create another game? Type > 1 < for Yes or > 0 < for No";
 		
 		return askPlayAgain;
 	}

@@ -29,8 +29,9 @@ public class GameTest {
 								{4,5,6},
 								{7,8,0},
 							};
-
-		assertArrayEquals(test_game,game.populateGameBoard(rows,columns));
+		
+		game.populateGameBoard(rows, columns);
+		assertArrayEquals(test_game,game.getGameMatrix());
 	}
 	
 }
